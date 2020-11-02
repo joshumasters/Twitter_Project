@@ -11,6 +11,7 @@ import com.tts.techtalenttwitter.model.User;
 @Repository
 public interface TweetRepository extends CrudRepository<Tweet, Long> {
     List<Tweet> findAllByOrderByCreatedAtDesc();
+    List<Tweet> findByTags_PhraseOrderByCreatedAtDesc(String phrase);
     List<Tweet> findAllByUserOrderByCreatedAtDesc(User user);
     List<Tweet> findAllByUserInOrderByCreatedAtDesc(List<User> users);
 }

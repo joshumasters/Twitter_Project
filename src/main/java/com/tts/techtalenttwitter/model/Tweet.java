@@ -36,9 +36,11 @@ public class Tweet {
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private User user;
 
-	// @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	// @JoinTable(name = "tweet_tag", joinColumns = @JoinColumn(name = "tweet_id"), inverseJoinColumns = @JoinColumn(name = "tag_id"))
-	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@JoinTable(name = "tweet_tag", joinColumns = @JoinColumn(name = "tweet_id"), inverseJoinColumns = @JoinColumn(name = "tag_id"))
+	private List<Tag> tags;
+
+	// private String exTag;
 
 	@NotEmpty(message = "Tweet cannot be empty")
 	@Length(max = 280, message = "Tweet cannot have more than 280 characters")
@@ -46,57 +48,71 @@ public class Tweet {
 
 	@CreationTimestamp
     private Date createdAt;
+    
+    public Tweet(){
 
-    public Tweet() {
     }
 
-    public Tweet(Long id, User user,
+    public Tweet(Long id, User user, List<Tag> tags,
             @NotEmpty(message = "Tweet cannot be empty") @Length(max = 280, message = "Tweet cannot have more than 280 characters") String message,
-            Date createdAt) {
+            Date createdAt, String exTag) {
         this.id = id;
         this.user = user;
-        
-        this.message = message;
+        this.tags = tags;
+		this.message = message;
         this.createdAt = createdAt;
     }
 
-    public Long getId() {
-        return id;
-    }
+	public Long getId() {
+	return id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public User getUser() {
+	return user;
+	}
 
-    public User getUser() {
-        return user;
-    }
+	public void setUser(User user) {
+	this.user = user;
+	}
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+	public List<Tag> getTags() {
+	return tags;
+	}
 
-    public String getMessage() {
-        return message;
-    }
+	public void setTags(List<Tag> tags) {
+	this.tags = tags;
+	}
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
+	public String getMessage() {
+	return message;
+	}
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
+	public void setMessage(String message) {
+	this.message = message;
+	}
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
+	public Date getCreatedAt() {
+	return createdAt;
+	}
 
-    @Override
-    public String toString() {
-        return "Tweet [createdAt=" + createdAt + ", id=" + id + ", message=" + message + ", user="
-                + user + "]";
-    }
+	public void setCreatedAt(Date createdAt) {
+	this.createdAt = createdAt;
+	}
+
+	@Override
+	public String toString() {
+		return "Tweet [createdAt=" + createdAt + ", id=" + id + ", message=" + message + ", tags=" + tags + ", user="
+				+ user + "]";
+	}
+
+
+	
+
+	
+
+	
+
+    
 
     
     
